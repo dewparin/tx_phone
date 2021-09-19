@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_screen.dart';
 
 class TxPhoneApp extends StatelessWidget {
   const TxPhoneApp({Key? key}) : super(key: key);
@@ -15,9 +16,10 @@ class TxPhoneApp extends StatelessWidget {
         indicatorColor: Colors.white,
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
       ),
-      home: const Scaffold(
-        body: Center(child: Text('Hello')),
-      ),
+      initialRoute: PhoneListScreen.routeName,
+      routes: {
+        PhoneListScreen.routeName: (_) => const PhoneListScreen(),
+      },
     );
   }
 }
