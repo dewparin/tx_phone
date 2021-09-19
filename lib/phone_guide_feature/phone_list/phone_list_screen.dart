@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tx_phone/constant.dart';
 import 'package:tx_phone/entity/phone.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_model.dart';
+import 'package:tx_phone/phone_guide_feature/phone_list/widgets/phone_list_view.dart';
 
 class PhoneListScreen extends ConsumerWidget {
   const PhoneListScreen({Key? key}) : super(key: key);
@@ -52,8 +53,6 @@ class PhoneListScreen extends ConsumerWidget {
         appBar: AppBar(
           title: const Text('Mobile Phone'),
         ),
-        body: Center(
-          child: Text('Got ${phones.length} phones'),
-        ),
+        body: const PhoneListView(),
       );
 }
