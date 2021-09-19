@@ -21,9 +21,9 @@ class PhoneListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (layout == PhoneListViewLayout.favorite) {
-      return _FavoritePhoneListView();
+      return const _FavoritePhoneListView();
     } else {
-      return _RegularPhoneListView();
+      return const _RegularPhoneListView();
     }
   }
 }
