@@ -31,9 +31,11 @@ class PhoneListView extends StatelessWidget {
 abstract class _BasePhoneListView extends ConsumerWidget {
   const _BasePhoneListView({
     Key? key,
+    required this.listKeyValue,
     this.layout = PhoneListViewLayout.regular,
   }) : super(key: key);
 
+  final String listKeyValue;
   final PhoneListViewLayout layout;
 
   RootProvider getSourceProvider();
@@ -47,6 +49,7 @@ abstract class _BasePhoneListView extends ConsumerWidget {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: smallPadding),
             child: ListView.separated(
+              key: PageStorageKey(listKeyValue),
               itemCount: phones.length,
               itemBuilder: (context, index) {
                 return _buildPhoneListItem(phones[index]);
@@ -67,11 +70,16 @@ abstract class _BasePhoneListView extends ConsumerWidget {
 }
 
 class _RegularPhoneListView extends _BasePhoneListView {
+  const _RegularPhoneListView() : super(listKeyValue: '_RegularPhoneListView');
+
   @override
   RootProvider getSourceProvider() => sortedPhoneListProvider;
 }
 
 class _FavoritePhoneListView extends _BasePhoneListView {
+  const _FavoritePhoneListView()
+      : super(listKeyValue: '_FavoritePhoneListView');
+
   @override
   RootProvider getSourceProvider() => sortedFavoritePhoneList;
 }
