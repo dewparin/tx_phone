@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tx_phone/constant.dart';
 import 'package:tx_phone/entity/phone.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_model.dart';
+import 'package:tx_phone/phone_guide_feature/phone_list/widgets/phone_list_item.dart';
 
 class PhoneListView extends ConsumerWidget {
   const PhoneListView({
@@ -32,9 +33,5 @@ class PhoneListView extends ConsumerWidget {
         },
       );
 
-  Widget _buildPhoneListItem(Phone phone) => Card(
-        child: Center(
-          child: Text(phone.name),
-        ),
-      );
+  Widget _buildPhoneListItem(Phone phone) => PhoneListItem(phone: phone);
 }
