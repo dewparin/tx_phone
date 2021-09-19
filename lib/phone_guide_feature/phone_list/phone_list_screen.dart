@@ -78,7 +78,69 @@ class PhoneListScreen extends ConsumerWidget {
       Scaffold(
         appBar: AppBar(
           title: const Text('Mobile Phone'),
+          actions: [
+            Padding(
+                padding: const EdgeInsets.only(right: largePadding),
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const AlertDialog(
+                            content: _SortingOptionsDialog(),
+                          );
+                        });
+                  },
+                  child: const Icon(
+                    Icons.sort,
+                    size: 26.0,
+                  ),
+                )),
+          ],
         ),
         body: const PhoneListView(),
+      );
+}
+
+class _SortingOptionsDialog extends ConsumerWidget {
+  const _SortingOptionsDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        _buildRadioListTile(
+          scopeReader: watch,
+          label: 'Price low to high',
+          option: SortingOption.priceLowToHigh,
+        ),
+        _buildRadioListTile(
+          scopeReader: watch,
+          label: 'Price high to low',
+          option: SortingOption.priceHighToLow,
+        ),
+        _buildRadioListTile(
+          scopeReader: watch,
+          label: 'Rating 5 - 1',
+          option: SortingOption.ratingHighToLow,
+        ),
+      ],
+    );
+  }
+
+  RadioListTile _buildRadioListTile({
+    required ScopedReader scopeReader,
+    required String label,
+    required SortingOption option,
+  }) =>
+      RadioListTile<SortingOption>(
+        contentPadding: const EdgeInsets.all(0.0),
+        title: Text(label),
+        value: option,
+        groupValue: scopeReader(currentSortingOption).state,
+        onChanged: (_) {
+          scopeReader(currentSortingOption).state = option;
+        },
       );
 }

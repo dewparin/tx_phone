@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tx_phone/constant.dart';
 import 'package:tx_phone/entity/phone.dart';
-import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_model.dart';
+import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_screen.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/widgets/phone_list_item.dart';
 
 class PhoneListView extends ConsumerWidget {
@@ -13,7 +13,7 @@ class PhoneListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) => Builder(
         builder: (BuildContext context) {
-          final phones = watch(phoneListProvider);
+          final phones = watch(sortedPhoneListProvider);
           if (phones.isNotEmpty) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: smallPadding),
