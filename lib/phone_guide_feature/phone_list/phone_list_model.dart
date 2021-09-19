@@ -23,4 +23,15 @@ class PhoneList extends StateNotifier<List<Phone>> {
   void setNewPhoneList(List<Phone> phones) {
     state = phones;
   }
+
+  void toggleFavorite(int phoneId) {
+    final newState = [
+      for (final phone in state)
+        if (phone.id == phoneId)
+          phone.copyWith(isFavorite: !phone.isFavorite)
+        else
+          phone
+    ];
+    state = newState;
+  }
 }

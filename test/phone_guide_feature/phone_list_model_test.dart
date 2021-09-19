@@ -64,4 +64,17 @@ void main() {
       verifyNever(mockPhoneListStateNotifier.setNewPhoneList(any));
     });
   });
+
+  group('PhoneList', () {
+    test('shouldToggleFavoriteOnCorrectPhoneItem', () {
+      final sut = PhoneList(mockPhones);
+
+      sut.toggleFavorite(mockPhones.first.id);
+      expect(sut.state.first.isFavorite, !mockPhones.first.isFavorite);
+
+      sut.toggleFavorite(mockPhones.first.id);
+      expect(sut.state.first.isFavorite, mockPhones.first.isFavorite);
+      expect(sut.state.last.isFavorite, mockPhones.last.isFavorite);
+    });
+  });
 }
