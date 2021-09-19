@@ -80,30 +80,46 @@ class PhoneListScreen extends ConsumerWidget {
       );
 
   Widget _buildMainContent(BuildContext context, List<Phone> phones) =>
-      Scaffold(
-        appBar: AppBar(
-          title: const Text('Mobile Phone'),
-          actions: [
-            Padding(
-                padding: const EdgeInsets.only(right: largePadding),
-                child: GestureDetector(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const AlertDialog(
-                            content: _SortingOptionsDialog(),
-                          );
-                        });
-                  },
-                  child: const Icon(
-                    Icons.sort,
-                    size: 26.0,
-                  ),
-                )),
-          ],
+      DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Mobile Phone'),
+            bottom: TabBar(
+              tabs: [
+                Tab(text: 'Mobile List'.toUpperCase()),
+                Tab(text: 'Favorite List'.toUpperCase()),
+              ],
+            ),
+            actions: [
+              Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog(
+                              content: _SortingOptionsDialog(),
+                            );
+                          });
+                    },
+                    child: const Icon(
+                      Icons.sort,
+                      size: 26.0,
+                    ),
+                  )),
+            ],
+          ),
+          body: const TabBarView(
+            children: [
+              PhoneListView(),
+              PhoneListView(
+                layout: PhoneListViewLayout.favorite,
+              ),
+            ],
+          ),
         ),
-        body: const PhoneListView(),
       );
 }
 
