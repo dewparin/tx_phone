@@ -5,6 +5,15 @@ import 'package:tx_phone/entity/phone.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_model.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/widgets/phone_list_view.dart';
 
+enum SortingOption {
+  priceLowToHigh,
+  priceHighToLow,
+  ratingHighToLow,
+}
+
+final currentSortingOption =
+    StateProvider((ref) => SortingOption.priceLowToHigh);
+
 class PhoneListScreen extends ConsumerWidget {
   const PhoneListScreen({Key? key}) : super(key: key);
 
