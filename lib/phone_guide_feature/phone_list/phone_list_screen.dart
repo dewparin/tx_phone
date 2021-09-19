@@ -31,6 +31,11 @@ final sortedPhoneListProvider = Provider<List<Phone>>((ref) {
   return allPhones.toList();
 });
 
+final sortedFavoritePhoneList = AutoDisposeProvider<List<Phone>>((ref) {
+  final allPhones = ref.watch(sortedPhoneListProvider);
+  return allPhones.where((phone) => phone.isFavorite).toList();
+});
+
 class PhoneListScreen extends ConsumerWidget {
   const PhoneListScreen({Key? key}) : super(key: key);
 
