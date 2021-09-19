@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tx_phone/constant.dart';
 import 'package:tx_phone/entity/phone.dart';
+import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_model.dart';
 
 class PhoneListItem extends ConsumerWidget {
   final Phone phone;
@@ -57,7 +58,7 @@ class PhoneListItem extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            buildHeaderSection(context, phone),
+            _buildHeaderSection(context, watch, phone),
             Text(
               phone.description,
               maxLines: 2,
@@ -69,10 +70,25 @@ class PhoneListItem extends ConsumerWidget {
         ),
       );
 
-  Widget buildHeaderSection(BuildContext context, Phone phone) => Text(
-        phone.name,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.headline6,
+  Widget _buildHeaderSection(
+          BuildContext context, ScopedReader watch, Phone phone) =>
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            phone.name,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          IconButton(
+              icon: phone.isFavorite
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_border),
+              color: phone.isFavorite ? Colors.red[500] : null,
+              onPressed: () {
+                watch(phoneListProvider.notifier).toggleFavorite(phone.id);
+              }),
+        ],
       );
 
   Row _buildBottomRow(BuildContext context) => Row(
