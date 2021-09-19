@@ -14,6 +14,23 @@ enum SortingOption {
 final currentSortingOption =
     StateProvider((ref) => SortingOption.priceLowToHigh);
 
+final sortedPhoneListProvider = Provider<List<Phone>>((ref) {
+  final sortingOption = ref.watch(currentSortingOption);
+  final allPhones = ref.watch(phoneListProvider);
+  switch (sortingOption.state) {
+    case SortingOption.priceLowToHigh:
+      allPhones.sort((a, b) => a.price.compareTo(b.price));
+      break;
+    case SortingOption.priceHighToLow:
+      allPhones.sort((a, b) => b.price.compareTo(a.price));
+      break;
+    case SortingOption.ratingHighToLow:
+      allPhones.sort((a, b) => b.rating.compareTo(a.rating));
+      break;
+  }
+  return allPhones.toList();
+});
+
 class PhoneListScreen extends ConsumerWidget {
   const PhoneListScreen({Key? key}) : super(key: key);
 
