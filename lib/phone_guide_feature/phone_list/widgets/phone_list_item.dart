@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tx_phone/constant.dart';
 import 'package:tx_phone/entity/phone.dart';
+import 'package:tx_phone/phone_guide_feature/phone_item_details/phone_item_details_screen.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_model.dart';
 
 enum PhoneListItemLayout {
@@ -41,7 +42,11 @@ abstract class _BasePhoneListItem extends ConsumerWidget {
       BuildContext context, ScopedReader watch, Phone phone);
 
   void _navigateToPhoneDetailsScreen(BuildContext context) {
-    // TODO : navigate to phone details screen later.
+    Navigator.pushNamed(
+      context,
+      PhoneItemDetailsScreen.routeName,
+      arguments: PhoneItemDetailsScreenArguments(phone.id),
+    );
   }
 
   @override
