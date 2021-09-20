@@ -44,6 +44,8 @@ abstract class _BasePhoneListView extends ConsumerWidget {
   Widget buildPhoneListItem(
       BuildContext context, ScopedReader watch, Phone phone);
 
+  Widget buildEmptyView();
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return Builder(
@@ -64,7 +66,7 @@ abstract class _BasePhoneListView extends ConsumerWidget {
             ),
           );
         } else {
-          return const Center(child: Text('No Phones Here :-('));
+          return buildEmptyView();
         }
       },
     );
@@ -81,6 +83,9 @@ class _RegularPhoneListView extends _BasePhoneListView {
   Widget buildPhoneListItem(
           BuildContext context, ScopedReader watch, Phone phone) =>
       PhoneListItem(phone: phone);
+
+  @override
+  Widget buildEmptyView() => const Center(child: Text('No Phones Here :-('));
 }
 
 class _FavoritePhoneListView extends _BasePhoneListView {
@@ -114,5 +119,16 @@ class _FavoritePhoneListView extends _BasePhoneListView {
           phone: phone,
           layout: PhoneListItemLayout.noFavorite,
         ),
+      );
+
+  @override
+  Widget buildEmptyView() => Column(
+        children: const [
+          Spacer(),
+          Icon(Icons.favorite_border),
+          Padding(padding: EdgeInsets.only(bottom: smallPadding)),
+          Text('To love somebody :-)'),
+          Spacer(),
+        ],
       );
 }
