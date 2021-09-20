@@ -4,13 +4,41 @@ import 'package:tx_phone/constant.dart';
 import 'package:tx_phone/entity/phone.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_model.dart';
 
+enum PhoneListItemLayout {
+  regular,
+  noFavorite,
+}
+
 class PhoneListItem extends ConsumerWidget {
   final Phone phone;
+  final PhoneListItemLayout layout;
 
   const PhoneListItem({
     Key? key,
     required this.phone,
+    this.layout = PhoneListItemLayout.regular,
   }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    if (layout == PhoneListItemLayout.noFavorite) {
+      return _NoFavoritePhoneListItem(phone);
+    } else {
+      return _RegularPhoneListItem(phone);
+    }
+  }
+}
+
+abstract class _BasePhoneListItem extends ConsumerWidget {
+  final Phone phone;
+
+  const _BasePhoneListItem({
+    Key? key,
+    required this.phone,
+  }) : super(key: key);
+
+  Widget buildHeaderSection(
+      BuildContext context, ScopedReader watch, Phone phone);
 
   void _navigateToPhoneDetailsScreen(BuildContext context) {
     // TODO : navigate to phone details screen later.
@@ -58,7 +86,7 @@ class PhoneListItem extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildHeaderSection(context, watch, phone),
+            buildHeaderSection(context, watch, phone),
             Text(
               phone.description,
               maxLines: 2,
@@ -70,7 +98,27 @@ class PhoneListItem extends ConsumerWidget {
         ),
       );
 
-  Widget _buildHeaderSection(
+  Row _buildBottomRow(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            'Price: \$${phone.price}',
+            style: Theme.of(context).textTheme.caption,
+          ),
+          Text(
+            'Rating: ${phone.rating}',
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ],
+      );
+}
+
+class _RegularPhoneListItem extends _BasePhoneListItem {
+  const _RegularPhoneListItem(Phone phone) : super(phone: phone);
+
+  @override
+  Widget buildHeaderSection(
           BuildContext context, ScopedReader watch, Phone phone) =>
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,19 +138,22 @@ class PhoneListItem extends ConsumerWidget {
               }),
         ],
       );
+}
 
-  Row _buildBottomRow(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
+class _NoFavoritePhoneListItem extends _BasePhoneListItem {
+  const _NoFavoritePhoneListItem(Phone phone) : super(phone: phone);
+
+  @override
+  Widget buildHeaderSection(
+          BuildContext context, ScopedReader watch, Phone phone) =>
+      Column(
         children: [
           Text(
-            'Price: \$${phone.price}',
-            style: Theme.of(context).textTheme.caption,
+            phone.name,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.headline6,
           ),
-          Text(
-            'Rating: ${phone.rating}',
-            style: Theme.of(context).textTheme.caption,
-          ),
+          const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
         ],
       );
 }
