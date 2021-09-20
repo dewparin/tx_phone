@@ -52,8 +52,8 @@ class PhoneListScreen extends ConsumerWidget {
         );
       }, error: (_, __) {
         return _buildErrorView(context);
-      }, data: (phones) {
-        return _buildMainContent(context, phones);
+      }, data: (_) {
+        return _buildMainContent(context);
       });
     });
   }
@@ -79,8 +79,7 @@ class PhoneListScreen extends ConsumerWidget {
         ),
       );
 
-  Widget _buildMainContent(BuildContext context, List<Phone> phones) =>
-      DefaultTabController(
+  Widget _buildMainContent(BuildContext context) => DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
@@ -93,7 +92,7 @@ class PhoneListScreen extends ConsumerWidget {
             ),
             actions: [
               Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
+                  padding: const EdgeInsets.only(right: largePadding),
                   child: GestureDetector(
                     onTap: () {
                       showDialog(
