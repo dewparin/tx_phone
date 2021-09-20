@@ -1,7 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tx_phone/constant.dart';
 import 'package:tx_phone/entity/phone.dart';
+import 'package:tx_phone/entity/phone_image.dart';
 import 'package:tx_phone/phone_guide_feature/phone_item_details/phone_item_details_model.dart';
 
 class PhoneItemDetailsScreenArguments {
@@ -40,7 +42,19 @@ class PhoneItemDetailsScreen extends ConsumerWidget {
           BuildContext context, Phone phone, ScopedReader watch) =>
       Stack(
         children: [
-          const Center(child: CircularProgressIndicator()),
+          Builder(
+            builder: (context) {
+              return watch(getPhoneImagesFutureProvider(phone.id)).when(
+                  loading: () {
+                return const Center(child: CircularProgressIndicator());
+              }, error: (_, __) {
+                return const Center(
+                    child: Text('Cannot download phone images'));
+              }, data: (images) {
+                return Center(child: _buildCarousel(images));
+              });
+            },
+          ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -58,6 +72,30 @@ class PhoneItemDetailsScreen extends ConsumerWidget {
             ),
           ),
         ],
+      );
+
+  Container _buildCarousel(List<PhoneImage> images) => Container(
+        padding: const EdgeInsets.all(defaultPadding),
+        child: CarouselSlider.builder(
+          itemCount: images.length,
+          options: CarouselOptions(
+            height: 400.0,
+            viewportFraction: 1.0,
+          ),
+          itemBuilder: (_, int itemIndex, __) => Image.network(
+            images[itemIndex].url,
+            errorBuilder: (_, __, ___) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.warning),
+                  SizedBox(height: smallPadding),
+                  Text("Cannot download this image"),
+                ],
+              );
+            },
+          ),
+        ),
       );
 
   Text _buildOverlayText(BuildContext context, String text) => Text(
