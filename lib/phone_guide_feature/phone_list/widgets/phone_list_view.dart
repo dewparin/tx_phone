@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tx_phone/constant.dart';
 import 'package:tx_phone/entity/phone.dart';
+import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_model.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_screen.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/widgets/phone_list_item.dart';
 
@@ -40,7 +41,8 @@ abstract class _BasePhoneListView extends ConsumerWidget {
 
   RootProvider getSourceProvider();
 
-  Widget buildPhoneListItem(Phone phone);
+  Widget buildPhoneListItem(
+      BuildContext context, ScopedReader watch, Phone phone);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -54,7 +56,7 @@ abstract class _BasePhoneListView extends ConsumerWidget {
               key: PageStorageKey(listKeyValue),
               itemCount: phones.length,
               itemBuilder: (context, index) {
-                return buildPhoneListItem(phones[index]);
+                return buildPhoneListItem(context, watch, phones[index]);
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(height: smallPadding);
@@ -76,7 +78,9 @@ class _RegularPhoneListView extends _BasePhoneListView {
   RootProvider getSourceProvider() => sortedPhoneListProvider;
 
   @override
-  Widget buildPhoneListItem(Phone phone) => PhoneListItem(phone: phone);
+  Widget buildPhoneListItem(
+          BuildContext context, ScopedReader watch, Phone phone) =>
+      PhoneListItem(phone: phone);
 }
 
 class _FavoritePhoneListView extends _BasePhoneListView {
@@ -87,8 +91,28 @@ class _FavoritePhoneListView extends _BasePhoneListView {
   RootProvider getSourceProvider() => sortedFavoritePhoneList;
 
   @override
-  Widget buildPhoneListItem(Phone phone) => PhoneListItem(
-        phone: phone,
-        layout: PhoneListItemLayout.noFavorite,
+  Widget buildPhoneListItem(
+          BuildContext context, ScopedReader watch, Phone phone) =>
+      Dismissible(
+        key: Key(phone.id.toString()),
+        background: Container(
+          padding: const EdgeInsets.only(right: defaultPadding),
+          color: Colors.red,
+          alignment: Alignment.centerRight,
+          child: Text(
+            'Remove from Favorite',
+            style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                  color: Colors.white,
+                ),
+          ),
+        ),
+        direction: DismissDirection.endToStart,
+        onDismissed: (direction) {
+          watch(phoneListProvider.notifier).toggleFavorite(phone.id);
+        },
+        child: PhoneListItem(
+          phone: phone,
+          layout: PhoneListItemLayout.noFavorite,
+        ),
       );
 }
