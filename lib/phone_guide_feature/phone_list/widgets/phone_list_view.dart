@@ -40,6 +40,8 @@ abstract class _BasePhoneListView extends ConsumerWidget {
 
   RootProvider getSourceProvider();
 
+  Widget buildPhoneListItem(Phone phone);
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return Builder(
@@ -52,7 +54,7 @@ abstract class _BasePhoneListView extends ConsumerWidget {
               key: PageStorageKey(listKeyValue),
               itemCount: phones.length,
               itemBuilder: (context, index) {
-                return _buildPhoneListItem(phones[index]);
+                return buildPhoneListItem(phones[index]);
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(height: smallPadding);
@@ -65,8 +67,6 @@ abstract class _BasePhoneListView extends ConsumerWidget {
       },
     );
   }
-
-  Widget _buildPhoneListItem(Phone phone) => PhoneListItem(phone: phone);
 }
 
 class _RegularPhoneListView extends _BasePhoneListView {
@@ -74,6 +74,9 @@ class _RegularPhoneListView extends _BasePhoneListView {
 
   @override
   RootProvider getSourceProvider() => sortedPhoneListProvider;
+
+  @override
+  Widget buildPhoneListItem(Phone phone) => PhoneListItem(phone: phone);
 }
 
 class _FavoritePhoneListView extends _BasePhoneListView {
@@ -82,4 +85,10 @@ class _FavoritePhoneListView extends _BasePhoneListView {
 
   @override
   RootProvider getSourceProvider() => sortedFavoritePhoneList;
+
+  @override
+  Widget buildPhoneListItem(Phone phone) => PhoneListItem(
+        phone: phone,
+        layout: PhoneListItemLayout.noFavorite,
+      );
 }
