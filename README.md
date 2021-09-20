@@ -4,13 +4,14 @@ Mobile Phone Buyer’s Guide
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Run `flutter pub get`.
+2. Run `flutter packages pub run build_runner build` or execute `codegen.sh` script.
+3. Enjoy!
 
-A few resources to get you started if this is your first Flutter project:
+## Architecture
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Use [Riverpod](https://riverpod.dev/) for state management.
+- Data entities are in `/entity`.
+- Repository and network components are in `/data`.
+- All widgets are in `/phone_guide_feature`.
+- Unit/Widget test cases are in `/test` directory.
