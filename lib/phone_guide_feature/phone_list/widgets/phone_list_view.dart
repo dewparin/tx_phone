@@ -33,11 +33,9 @@ abstract class _BasePhoneListView extends ConsumerWidget {
   const _BasePhoneListView({
     Key? key,
     required this.listKeyValue,
-    this.layout = PhoneListViewLayout.regular,
   }) : super(key: key);
 
   final String listKeyValue;
-  final PhoneListViewLayout layout;
 
   RootProvider getSourceProvider();
 
