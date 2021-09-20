@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tx_phone/phone_guide_feature/phone_item_details/phone_item_details_screen.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_screen.dart';
 
 class TxPhoneApp extends StatelessWidget {
@@ -19,6 +20,7 @@ class TxPhoneApp extends StatelessWidget {
       initialRoute: PhoneListScreen.routeName,
       routes: {
         PhoneListScreen.routeName: (_) => const PhoneListScreen(),
+        PhoneItemDetailsScreen.routeName: (_) => const PhoneItemDetailsScreen(),
       },
     );
   }
