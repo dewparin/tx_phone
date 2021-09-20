@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tx_phone/entity/phone.dart';
+import 'package:tx_phone/entity/phone_image.dart';
 
 part 'rest_client.g.dart';
 
@@ -17,6 +18,12 @@ abstract class RestClient {
 
   @GET("/mobiles")
   Future<List<Phone>> getPhones(
+    @CancelRequest() CancelToken cancelToken,
+  );
+
+  @GET("/mobiles/{id}/images")
+  Future<List<PhoneImage>> getPhoneImages(
+    @Path("id") int id,
     @CancelRequest() CancelToken cancelToken,
   );
 }
