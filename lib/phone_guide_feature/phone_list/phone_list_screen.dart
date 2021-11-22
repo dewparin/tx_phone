@@ -39,7 +39,7 @@ final sortedFavoritePhoneList = AutoDisposeProvider<List<Phone>>((ref) {
 class PhoneListScreen extends ConsumerWidget {
   const PhoneListScreen({Key? key}) : super(key: key);
 
-  static const routeName = '/';
+  static const routeName = '/phone_list';
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
