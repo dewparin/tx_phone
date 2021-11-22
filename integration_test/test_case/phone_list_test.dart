@@ -22,15 +22,12 @@ void main() {
     testWidgets('set favorite phone', (WidgetTester tester) async {
       final page = await setup(tester);
 
-      // first tab
-      await page.tapMobileListTab();
       const phoneId = 1;
+      await page.tapMobileListTab();
       await page.toggleFavorite(phoneId);
-      page.verifyPhoneIsFavoriteInMobileTab(phoneId);
-
-      // second tab
+      page.expectPhoneIsFavoriteInMobileTab(phoneId);
       await page.tapFavoriteListTab();
-      page.verifyPhoneIsFavoriteInFavoriteTab(phoneId);
+      page.expectPhoneIsInFavoriteTab(phoneId);
     });
 
     testWidgets('remove favorite phone', (WidgetTester tester) async {
@@ -38,15 +35,11 @@ void main() {
 
       const phoneId = 1;
       await page.toggleFavorite(phoneId);
-      page.verifyPhoneIsFavoriteInMobileTab(phoneId);
+      page.expectPhoneIsFavoriteInMobileTab(phoneId);
       await page.toggleFavorite(phoneId);
-      page.verifyPhoneIsNotFavoriteInMobileTab(phoneId);
-
-      //second tab
+      page.expectPhoneIsNotFavoriteInMobileTab(phoneId);
       await page.tapFavoriteListTab();
-      page.verifyPhoneIsNotFavoriteInFavoriteTab(phoneId);
+      page.expectPhoneIsNotInFavoriteTab(phoneId);
     });
-
-
   });
 }

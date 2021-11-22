@@ -30,46 +30,53 @@ class PhoneListPageObject {
 
   Future<void> toggleFavorite(int phoneId) async {
     final item = find.byKey(ValueKey(phoneId));
-    final favIconFinder = find.descendant(of: item, matching: find.byType(IconButton));
+    final favIconFinder =
+        find.descendant(of: item, matching: find.byType(IconButton));
     await tester.tap(favIconFinder);
     await tester.pumpAndSettle();
   }
 
-  PhoneListPageObject verifyPageIsVisible() {
+  PhoneListPageObject expectPageIsVisible() {
     expect(find.byType(PhoneListScreen), findsOneWidget);
     return this;
   }
 
-  PhoneListPageObject verifyPhoneIsFavoriteInMobileTab(int phoneId) {
+  PhoneListPageObject expectPhoneIsFavoriteInMobileTab(int phoneId) {
     final list = find.byKey(const ValueKey(mobileListKey));
-    final phoneListItemFinder = find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
-    final favIconFinder = find.descendant(of: phoneListItemFinder, matching: find.byType(IconButton));
+    final phoneListItemFinder =
+        find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
+    final favIconFinder = find.descendant(
+        of: phoneListItemFinder, matching: find.byType(IconButton));
 
     final favIcon = tester.widget<IconButton>(favIconFinder);
     expect((favIcon.icon as Icon).icon, equals(Icons.favorite));
     return this;
   }
 
-  PhoneListPageObject verifyPhoneIsNotFavoriteInMobileTab(int phoneId) {
+  PhoneListPageObject expectPhoneIsNotFavoriteInMobileTab(int phoneId) {
     final list = find.byKey(const ValueKey(mobileListKey));
-    final phoneListItemFinder = find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
-    final favIconFinder = find.descendant(of: phoneListItemFinder, matching: find.byType(IconButton));
+    final phoneListItemFinder =
+        find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
+    final favIconFinder = find.descendant(
+        of: phoneListItemFinder, matching: find.byType(IconButton));
 
     final favIcon = tester.widget<IconButton>(favIconFinder);
     expect((favIcon.icon as Icon).icon, equals(Icons.favorite_border));
     return this;
   }
 
-  PhoneListPageObject verifyPhoneIsFavoriteInFavoriteTab(int phoneId) {
+  PhoneListPageObject expectPhoneIsInFavoriteTab(int phoneId) {
     final list = find.byKey(const ValueKey(favoriteListKey));
-    final phoneListItemFinder = find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
+    final phoneListItemFinder =
+        find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
     expect(phoneListItemFinder, findsOneWidget);
     return this;
   }
 
-  PhoneListPageObject verifyPhoneIsNotFavoriteInFavoriteTab(int phoneId) {
+  PhoneListPageObject expectPhoneIsNotInFavoriteTab(int phoneId) {
     final list = find.byKey(const ValueKey(favoriteListKey));
-    final phoneListItemFinder = find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
+    final phoneListItemFinder =
+        find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
     expect(phoneListItemFinder, findsNothing);
     return this;
   }

@@ -19,7 +19,7 @@ void main() {
     testWidgets('test initial state', (WidgetTester tester) async {
       final page = await setup(tester);
       //verify initial state
-      page.verifySubmitButtonIsDisabled();
+      page.expectSubmitButtonIsDisabled();
     });
 
     testWidgets('enter valid input, expect success',
@@ -28,12 +28,12 @@ void main() {
 
       //test enable button
       await page.enterIdText('1234567');
-      page.verifySubmitButtonIsEnabled();
+      page.expectSubmitButtonIsEnabled();
 
       //test tap button
       await page.tapSubmitButton();
       final phoneListPage = PhoneListPageObject(tester);
-      phoneListPage.verifyPageIsVisible();
+      phoneListPage.expectPageIsVisible();
     });
 
     testWidgets('enter invalid input, expect error',
@@ -42,7 +42,7 @@ void main() {
 
       //test disable button
       await page.enterIdText('123456');
-      page.verifySubmitButtonIsDisabled();
+      page.expectSubmitButtonIsDisabled();
     });
   });
 }

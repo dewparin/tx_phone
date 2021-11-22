@@ -29,13 +29,13 @@ class LoginPageObject {
     await tester.pumpAndSettle();
   }
 
-  LoginPageObject verifySubmitButtonIsEnabled() {
+  LoginPageObject expectSubmitButtonIsEnabled() {
     final submitButton = tester.widget<OutlinedButton>(_buttonFinder);
     expect(submitButton.onPressed, isNotNull);
     return this;
   }
 
-  LoginPageObject verifySubmitButtonIsDisabled() {
+  LoginPageObject expectSubmitButtonIsDisabled() {
     final submitButton = tester.widget<OutlinedButton>(_buttonFinder);
     expect(submitButton.onPressed, null);
     return this;
