@@ -8,8 +8,6 @@ import '../page_object/phone_list_page_object.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  final LoginPageObject page;
-
   Future<LoginPageObject> setup(WidgetTester tester) async {
     app.main();
     final page = LoginPageObject(tester);
