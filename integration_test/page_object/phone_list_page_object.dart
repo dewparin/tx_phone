@@ -25,4 +25,13 @@ class PhoneListPageObject {
     expect(find.byType(PhoneListScreen), findsOneWidget);
     return this;
   }
+
+  PhoneListPageObject verifyPhoneIsFavorite(int phoneId) {
+    final item = find.byKey(ValueKey(phoneId));
+    final favIconFinder = find.descendant(of: item, matching: find.byType(IconButton));
+
+    final favIcon = tester.widget<IconButton>(favIconFinder);
+    expect((favIcon.icon as Icon).icon, equals(Icons.favorite));
+    return this;
+  }
 }
