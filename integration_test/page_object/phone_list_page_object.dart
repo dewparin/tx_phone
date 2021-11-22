@@ -14,6 +14,20 @@ class PhoneListPageObject {
     await tester.pumpAndSettle();
   }
 
+  Future<void> _tapOnTab(String key) async {
+    final tabFinder = find.byKey(ValueKey(key));
+    await tester.tap(tabFinder);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> tapMobileListTab() async {
+    await _tapOnTab(firstTabKey);
+  }
+
+  Future<void> tapFavoriteListTab() async {
+    await _tapOnTab(secondTabKey);
+  }
+
   Future<void> toggleFavorite(int phoneId) async {
     final item = find.byKey(ValueKey(phoneId));
     final favIconFinder = find.descendant(of: item, matching: find.byType(IconButton));
@@ -26,21 +40,37 @@ class PhoneListPageObject {
     return this;
   }
 
-  PhoneListPageObject verifyPhoneIsFavorite(int phoneId) {
-    final item = find.byKey(ValueKey(phoneId));
-    final favIconFinder = find.descendant(of: item, matching: find.byType(IconButton));
+  PhoneListPageObject verifyPhoneIsFavoriteInMobileTab(int phoneId) {
+    final list = find.byKey(const ValueKey(mobileListKey));
+    final phoneListItemFinder = find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
+    final favIconFinder = find.descendant(of: phoneListItemFinder, matching: find.byType(IconButton));
 
     final favIcon = tester.widget<IconButton>(favIconFinder);
     expect((favIcon.icon as Icon).icon, equals(Icons.favorite));
     return this;
   }
 
-  PhoneListPageObject verifyPhoneIsNotFavorite(int phoneId) {
-    final phoneListItemFinder = find.byKey(ValueKey(phoneId));
+  PhoneListPageObject verifyPhoneIsNotFavoriteInMobileTab(int phoneId) {
+    final list = find.byKey(const ValueKey(mobileListKey));
+    final phoneListItemFinder = find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
     final favIconFinder = find.descendant(of: phoneListItemFinder, matching: find.byType(IconButton));
 
     final favIcon = tester.widget<IconButton>(favIconFinder);
     expect((favIcon.icon as Icon).icon, equals(Icons.favorite_border));
+    return this;
+  }
+
+  PhoneListPageObject verifyPhoneIsFavoriteInFavoriteTab(int phoneId) {
+    final list = find.byKey(const ValueKey(favoriteListKey));
+    final phoneListItemFinder = find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
+    expect(phoneListItemFinder, findsOneWidget);
+    return this;
+  }
+
+  PhoneListPageObject verifyPhoneIsNotFavoriteInFavoriteTab(int phoneId) {
+    final list = find.byKey(const ValueKey(favoriteListKey));
+    final phoneListItemFinder = find.descendant(of: list, matching: find.byKey(ValueKey(phoneId)));
+    expect(phoneListItemFinder, findsNothing);
     return this;
   }
 }

@@ -5,6 +5,11 @@ import 'package:tx_phone/entity/phone.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/phone_list_model.dart';
 import 'package:tx_phone/phone_guide_feature/phone_list/widgets/phone_list_view.dart';
 
+const firstTabKey = 'firstTab';
+const secondTabKey = 'secondTab';
+const mobileListKey = 'mobileList';
+const favoriteListKey = 'favoriteList';
+
 enum SortingOption {
   priceLowToHigh,
   priceHighToLow,
@@ -86,8 +91,8 @@ class PhoneListScreen extends ConsumerWidget {
             title: const Text('Mobile Phone'),
             bottom: TabBar(
               tabs: [
-                Tab(text: 'Mobile List'.toUpperCase()),
-                Tab(text: 'Favorite List'.toUpperCase()),
+                Tab(key: const ValueKey(firstTabKey), text: 'Mobile List'.toUpperCase()),
+                Tab(key: const ValueKey(secondTabKey), text: 'Favorite List'.toUpperCase()),
               ],
             ),
             actions: [
@@ -112,8 +117,9 @@ class PhoneListScreen extends ConsumerWidget {
           ),
           body: const TabBarView(
             children: [
-              PhoneListView(),
+              PhoneListView(key: ValueKey(mobileListKey),),
               PhoneListView(
+                key: ValueKey(favoriteListKey),
                 layout: PhoneListViewLayout.favorite,
               ),
             ],
