@@ -26,5 +26,15 @@ void main() {
       await page.toggleFavorite(targetId);
       page.verifyPhoneIsFavorite(targetId);
     });
+
+    testWidgets('remove favorite phone', (WidgetTester tester) async {
+      final page = await setup(tester);
+
+      const targetId = 1;
+      await page.toggleFavorite(targetId);
+      page.verifyPhoneIsFavorite(targetId);
+      await page.toggleFavorite(targetId);
+      page.verifyPhoneIsNotFavorite(targetId);
+    });
   });
 }

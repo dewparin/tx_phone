@@ -34,4 +34,13 @@ class PhoneListPageObject {
     expect((favIcon.icon as Icon).icon, equals(Icons.favorite));
     return this;
   }
+
+  PhoneListPageObject verifyPhoneIsNotFavorite(int phoneId) {
+    final item = find.byKey(ValueKey(phoneId));
+    final favIconFinder = find.descendant(of: item, matching: find.byType(IconButton));
+
+    final favIcon = tester.widget<IconButton>(favIconFinder);
+    expect((favIcon.icon as Icon).icon, equals(Icons.favorite_border));
+    return this;
+  }
 }
