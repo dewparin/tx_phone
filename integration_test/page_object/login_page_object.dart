@@ -9,34 +9,34 @@ class LoginPageObject {
 
   final page = const LoginPage();
 
-  Finder get _textField => find.byType(TextFormField);
+  Finder get _textFieldFinder => find.byType(TextFormField);
 
-  Finder get _button => find.byType(OutlinedButton);
+  Finder get _buttonFinder => find.byType(OutlinedButton);
 
   Future<void> init() async {
     await tester.pumpAndSettle();
   }
 
   Future<void> enterIdText(String text) async {
-    await tester.tap(_textField);
+    await tester.tap(_textFieldFinder);
     await tester.pumpAndSettle();
-    await tester.enterText(_textField, text);
+    await tester.enterText(_textFieldFinder, text);
     await tester.pumpAndSettle();
   }
 
   Future<void> tapSubmitButton() async {
-    await tester.tap(_button);
+    await tester.tap(_buttonFinder);
     await tester.pumpAndSettle();
   }
 
   LoginPageObject verifySubmitButtonIsEnabled() {
-    final submitButton = tester.widget<OutlinedButton>(_button);
+    final submitButton = tester.widget<OutlinedButton>(_buttonFinder);
     expect(submitButton.onPressed, isNotNull);
     return this;
   }
 
   LoginPageObject verifySubmitButtonIsDisabled() {
-    final submitButton = tester.widget<OutlinedButton>(_button);
+    final submitButton = tester.widget<OutlinedButton>(_buttonFinder);
     expect(submitButton.onPressed, null);
     return this;
   }

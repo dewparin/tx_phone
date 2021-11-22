@@ -16,8 +16,8 @@ class PhoneListPageObject {
 
   Future<void> toggleFavorite(int phoneId) async {
     final item = find.byKey(ValueKey(phoneId));
-    final favIcon = find.descendant(of: item, matching: find.byType(IconButton));
-    await tester.tap(favIcon);
+    final favIconFinder = find.descendant(of: item, matching: find.byType(IconButton));
+    await tester.tap(favIconFinder);
     await tester.pumpAndSettle();
   }
 
@@ -36,8 +36,8 @@ class PhoneListPageObject {
   }
 
   PhoneListPageObject verifyPhoneIsNotFavorite(int phoneId) {
-    final item = find.byKey(ValueKey(phoneId));
-    final favIconFinder = find.descendant(of: item, matching: find.byType(IconButton));
+    final phoneListItemFinder = find.byKey(ValueKey(phoneId));
+    final favIconFinder = find.descendant(of: phoneListItemFinder, matching: find.byType(IconButton));
 
     final favIcon = tester.widget<IconButton>(favIconFinder);
     expect((favIcon.icon as Icon).icon, equals(Icons.favorite_border));
