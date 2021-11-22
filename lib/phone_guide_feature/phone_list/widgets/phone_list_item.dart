@@ -51,6 +51,7 @@ abstract class _BasePhoneListItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) => Card(
+        key: ValueKey(phone.id),
         child: InkWell(
           onTap: () {
             _navigateToPhoneDetailsScreen(context);
